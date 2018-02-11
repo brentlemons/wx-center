@@ -79,8 +79,8 @@ export function index(req, res) {
   var startTime = moment(endTime).subtract(defaultHours, 'hours');
   if(!isEmpty(req.query)) {
     if(req.query.time) {
-      if (req.query.time !== 'now') {
-        if (moment(req.query.time).isValid()) {
+      if(req.query.time !== 'now') {
+        if(moment(req.query.time).isValid()) {
           endTime = moment(req.query.time);
         }
       }

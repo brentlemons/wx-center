@@ -10,6 +10,12 @@
   <div class="row">
     <div class="col-lg-12">
       <h1 class="page-header">Features:</h1>
+
+<canvas id="line" class="chart chart-line" chart-data="$ctrl.data"
+chart-labels="$ctrl.labels" chart-options="$ctrl.options">
+</canvas>
+
+
       <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="reading in $ctrl.readings">
         <li><a href="#" uib-tooltip="{{reading.timestamp}}">{{reading.temperature}}<button type="button" class="close" ng-click="$ctrl.deleteThing(thing)">&times;</button></a></li>
       </ul>
