@@ -5,9 +5,11 @@ import {registerEvents} from './status.events';
 
 var StatusSchema = new mongoose.Schema({
   device: String,
-  temperature: Number,
-  humidity: Number,
-  timestamp: Date
+  percentage: Number,
+  adc: Number,
+  realVoltage: Number,
+  charging: Number,
+  timestamp: Date  
 });
 
 registerEvents(StatusSchema);
