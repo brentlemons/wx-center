@@ -7,6 +7,10 @@ var ReadingSchema = new mongoose.Schema({
   device: String,
   temperature: Number,
   humidity: Number,
+  percentage: Number,
+  adc: Number,
+  realVoltage: Number,
+  charging: Number,
   timestamp: Date
 });
 

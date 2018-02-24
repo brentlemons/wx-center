@@ -6,7 +6,7 @@ export class MainController {
   readings = [];
   newThing = '';
   options = {
-    elements:{ line: {fill:false}},
+    elements: { line: {fill: false, tension: 0}},
     fill: false,
     responsive: true,
     scales: {
@@ -19,14 +19,23 @@ export class MainController {
       }],
       yAxes: [
         {
-          id: 'y-axis-1',
+          id: 'left-y-axis',
           type: 'linear',
-          display: true,
           position: 'left'
+        },
+        {
+          id: 'right-y-axis',
+          type: 'linear',
+          position: 'right',
+          ticks: {
+            min: 0,
+            max: 100
+          }
         }
       ]
     }
   };
+  datasetOverride = [{yAxisID: 'left-y-axis'}, {yAxisID: 'right-y-axis'}]
 
   /*@ngInject*/
   constructor($http, $scope, socket) {
@@ -39,19 +48,25 @@ export class MainController {
   }
 
   $onInit() {
-    this.$http.get('/api/readings?hours=3')
+    this.$http.get('/api/readings?hours=24')
       .then(response => {
-        this.readings = response.data;
+        this.readings = response.data.map(reading => ({
+          _id: reading._id,
+          device: reading.device,
+          timestamp: reading.timestamp,
+          temperature: reading.temperature,
+          dewPoint: 243.04*(Math.log(reading.humidity/100.0)+((17.625*reading.temperature)/(243.04+reading.temperature)))/(17.625-Math.log(reading.humidity/100.0)-((17.625*reading.temperature)/(243.04+reading.temperature))),
+          humidity: reading.humidity
+        }));
         //this.socket.syncUpdates('reading', this.readings);
-        this.labels = response.data.map(reading => {
-          return reading.timestamp;
-        });
-        this.data = response.data.map(reading => {
-          return {
-            x: reading.timestamp,
-            y: reading.temperature
-          }
-        });
+        this.labels = response.data.map(reading => reading.timestamp);
+        var temperature = response.data.map(reading => reading.temperature);
+        var humidity = response.data.map(reading => reading.humidity);
+        this.data = [temperature,humidity];
+        // this.data = response.data.map(reading => ({
+        //   x: reading.timestamp,
+        //   y: reading.temperature
+        // }));
         console.log(this.data);
       });
   }

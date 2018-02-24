@@ -107,6 +107,7 @@ export function show(req, res) {
 
 // Creates a new Reading in the DB
 export function create(req, res) {
+  console.log(req.body);
   req.body.timestamp = moment();
   return Reading.create(req.body)
     .then(respondWithResult(res, 201))

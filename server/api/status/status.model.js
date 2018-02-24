@@ -9,7 +9,7 @@ var StatusSchema = new mongoose.Schema({
   adc: Number,
   realVoltage: Number,
   charging: Number,
-  timestamp: Date  
+  timestamp: Date
 });
 
 registerEvents(StatusSchema);
